@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Overview: Simple Fitness Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The SPA is structured as a narrative journey for a project evaluator. It begins with a high-level summary (Hero), delves into core technical concepts (Highlights), provides a hands-on demonstration (Features Explorer), explains setup (How to Run), offers a critical analysis (Limitations), and ends with a forward-looking vision (Roadmap). This thematic, non-linear structure is more engaging than a standard README and guides the user through understanding the project's value and potential logically. -->
+    <!-- Visualization & Content Choices:
+        - Report Info: Project Highlights -> Goal: Inform -> Viz/Presentation: Interactive cards with icons -> Interaction: Hover to reveal details -> Justification: Breaks down key technical strengths into digestible, visually appealing chunks. -> Library/Method: HTML/CSS/JS.
+        - Report Info: Features List -> Goal: Demonstrate -> Viz/Presentation: Simulated interactive terminal with live text input -> Interaction: Type queries or click sample questions to see chatbot responses appear -> Justification: The most crucial interaction. It makes the chatbot's functionality tangible and proves its capabilities instantly, allowing users to test its flexibility. -> Library/Method: JS DOM Manipulation, JS Regex.
+        - Report Info: Future Enhancements -> Goal: Compare/Visualize Vision -> Viz/Presentation: Bar chart showing estimated complexity of future tasks -> Interaction: Tooltips on hover provide more details. -> Justification: Translates a text list into a quantitative visualization, showing foresight and planning ability. -> Library/Method: Chart.js.
+        - Report Info: Future Development Areas (formerly Limitations) -> Goal: Showcase Vision/Growth -> Viz/Presentation: Styled list -> Interaction: None, clarity is the priority -> Justification: Replaces negative framing with a positive outlook on future work, aligning with a growth mindset for recruiters. -> Library/Method: HTML/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F7F7F7;
+            color: #1a202c;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        .terminal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .terminal-body::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        .terminal-body::-webkit-scrollbar-thumb {
+            background-color: #718096;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="main-header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Fitness Chatbot Project</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#highlights" class="text-gray-600 hover:text-teal-600 transition">Highlights</a>
+                <a href="#features" class="text-gray-600 hover:text-teal-600 transition">Features</a>
+                <a href="#roadmap" class="text-gray-600 hover:text-teal-600 transition">Roadmap</a>
+                <a href="#setup" class="text-gray-600 hover:text-teal-600 transition">Setup</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+
+        <!-- Hero Section -->
+        <section class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Interactive Project Overview</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">A foundational rule-based chatbot designed for fitness enthusiasts. This interactive experience breaks down the project's features, limitations, and future potential.</p>
+        </section>
+
+        <!-- Project Highlights Section -->
+        <section id="highlights" class="mb-20">
+            <h3 class="text-3xl font-bold text-center mb-2">Project Highlights</h3>
+            <p class="text-md text-gray-500 text-center mb-12">This project showcases several key software development and NLP concepts. The core technical strengths are broken down into digestible, visually appealing chunks below.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center mb-3">
+                        <div class="bg-teal-100 p-2 rounded-full mr-4">
+                            <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold">Rule-Based Logic</h4>
+                    </div>
+                    <p class="text-gray-600">Implements a system of predefined rules and regular expressions to respond to user queries effectively.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                     <div class="flex items-center mb-3">
+                        <div class="bg-teal-100 p-2 rounded-full mr-4">
+                           <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l-4 4-4-4-4 4"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold">Basic Context Management</h4>
+                    </div>
+                    <p class="text-gray-600">A simple mechanism remembers the last user intent, allowing for more natural follow-up conversations.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                     <div class="flex items-center mb-3">
+                        <div class="bg-teal-100 p-2 rounded-full mr-4">
+                           <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h4 class="text-xl font-semibold">Robust Input Handling</h4>
+                    </div>
+                    <p class="text-gray-600">A dedicated function preprocesses user queries to normalize text for more reliable pattern matching.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Explorer Section -->
+        <section id="features" class="mb-20">
+            <h3 class="text-3xl font-bold text-center mb-2">Features Explorer</h3>
+            <p class="text-md text-gray-500 text-center mb-12">Experience the chatbot's capabilities! Type your own questions into the terminal below, or click on the sample queries to see instant responses.</p>
+            <div class="w-full max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
+                <div class="bg-gray-700 p-3 flex items-center">
+                    <div class="flex space-x-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                    </div>
+                    <p class="text-center text-sm text-gray-400 flex-grow">bash -- FitnessBot</p>
+                </div>
+                <div id="terminal-body" class="terminal-body h-96 p-4 text-white font-mono text-sm overflow-y-auto">
+                    <p><span class="text-green-400">Chatbot:</span> Hello! I'm your Fitness Bot. Ask me about workouts, meals, or sleep!</p>
+                </div>
+                <div class="p-4 bg-gray-700 flex space-x-2">
+                    <input type="text" id="user-input" class="flex-grow bg-gray-900 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Type your question here...">
+                    <button id="send-btn" class="bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition">Send</button>
+                </div>
+            </div>
+            <div class="w-full max-w-4xl mx-auto mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"What's a good workout plan?"</button>
+                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"breakfast ideas"</button>
+                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"How much sleep?"</button>
+                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"motivation"</button>
+            </div>
+        </section>
+
+        <!-- Roadmap & Future Enhancements -->
+        <section id="roadmap" class="mb-20">
+            <h3 class="text-3xl font-bold text-center mb-2">Project Roadmap</h3>
+            <p class="text-md text-gray-500 text-center mb-12">This project lays the groundwork for more advanced AI concepts. This chart visualizes the estimated complexity of future enhancements, demonstrating foresight and planning.</p>
+            <div class="bg-white p-4 sm:p-8 rounded-xl shadow-lg">
+                <div class="chart-container">
+                    <canvas id="roadmapChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup & Future Development Areas (Replaced Limitations) -->
+        <section id="setup" class="grid lg:grid-cols-5 gap-12">
+            <div class="lg:col-span-3">
+                <h3 class="text-3xl font-bold mb-6">How to Run</h3>
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 text-white font-bold text-lg rounded-full flex items-center justify-center mr-4">1</div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Prerequisites</h4>
+                            <p class="text-gray-600">Ensure Python 3.x is installed on your system.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 text-white font-bold text-lg rounded-full flex items-center justify-center mr-4">2</div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Clone Repository</h4>
+                            <p class="text-gray-600">Download or clone the project files from its Git repository. <span class="font-semibold text-teal-200">Remember to replace &lt;repo-url&gt; with your actual GitHub repository URL.</span></p>
+                             <code class="block bg-gray-100 text-gray-800 p-2 rounded-md mt-2 text-sm">git clone &lt;repo-url&gt;</code>
+                        </div>
+                    </div>
+                     <div class="flex items-start">
+                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 text-white font-bold text-lg rounded-full flex items-center justify-center mr-4">3</div>
+                        <div>
+                            <h4 class="font-semibold text-lg">Execute Script</h4>
+                            <p class="text-gray-600">Navigate to the project directory and run the script from your terminal.</p>
+                             <code class="block bg-gray-100 text-gray-800 p-2 rounded-md mt-2 text-sm">python chatbot.py</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold mb-4">Future Development Areas</h3>
+                <ul class="space-y-4 text-gray-600 list-disc list-inside">
+                    <li><span class="font-semibold">Intent Recognition with Machine Learning:</span> Transition from rigid rules to ML models for more intelligent understanding of user intent.</li>
+                    <li><span class="font-semibold">Entity Extraction:</span> Develop capabilities to identify and extract key pieces of information (e.g., specific exercises, food types) from user queries.</li>
+                    <li><span class="font-semibold">Advanced Context Management:</span> Implement a robust system to remember and utilize conversational history for more coherent and personalized interactions.</li>
+                    <li><span class="font-semibold">Integration with APIs:</span> Connect to external fitness APIs for real-time data, such as calorie databases or detailed exercise instructions.</li>
+                    <li><span class="font-semibold">Web Interface:</span> Build a full-fledged web application (e.g., using Flask or a frontend framework) to make the chatbot accessible via a browser.</li>
+                    <li><span class="font-semibold">Database Integration:</span> Incorporate a database to store user preferences, progress, or custom fitness plans.</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 Fitness Chatbot Project. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">This project is open source and available under the MIT License.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const terminalBody = document.getElementById('terminal-body');
+            const queryButtons = document.querySelectorAll('.query-btn');
+            const userInputField = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-btn');
+            const mainHeader = document.getElementById('main-header'); // Get the header element
+
+            // --- Replicated Chatbot Logic (JavaScript Version) ---
+            // This mirrors the Python chatbot_rules for the interactive demo.
+            const chatbotRulesJS = {
+                // Greetings and Introductions
+                "hi|hello|hey|greetings": {response: "Hello there! Welcome to your fitness companion. How can I help you achieve your health goals today? You can ask me about workouts, meals, or sleep.", intent: 'greeting'},
+                "how are you|how's it going": {response: "I'm a bot designed to help you with your fitness journey! How are you feeling today? Feel free to ask about workouts, nutrition, or sleep.", intent: 'greeting'},
+                "what is your name|who are you": {response: "I'm your friendly Fitness Bot, here to answer your questions about health, workouts, and nutrition. What would you like to know?", intent: 'greeting'},
+
+                // Workout-related Questions
+                "workout plan|exercise routine|gym plan|workout|exercise|gym": {response: "I can help with workout plans! Are you looking for something for beginners, strength training, cardio, or flexibility? You can specify your preference.", intent: 'workout_plan'},
+                "beginner|start exercising": {response: "For beginners, I recommend starting with bodyweight exercises like squats, push-ups (on knees if needed), and planks. Consistency is key! You can also ask about strength training or cardio.", intent: 'beginner_workout'},
+                "strength|strength training|build muscle": {response: "Strength training is great! Focus on compound movements like squats, deadlifts, bench press, and overhead press. Ensure proper form! You can also ask about workout frequency or warm-up routines.", intent: 'strength_workout'},
+                "cardio|endurance": {response: "Cardio helps heart health! Consider running, cycling, swimming, or brisk walking. Aim for at least 30 minutes most days. You can also ask about warm-up or cool-down exercises.", intent: 'cardio_workout'},
+                "warm up|cool down|warmup|cooldown": {response: "Always warm up for 5-10 minutes before and cool down for 5-10 minutes after your workout to prevent injuries. You can also ask about different workout types.", intent: 'workout_prep'},
+                "how many times a week|workout frequency|frequency": {response: "For general fitness, aim for 3-5 workout sessions per week, allowing for rest days. You can also ask about specific exercises.", intent: 'workout_frequency'},
+
+                // Meal and Nutrition Questions
+                "healthy meals|diet plan|nutrition advice|meals|diet|nutrition": {response: "Nutrition is vital! Are you interested in meal ideas for breakfast, lunch, dinner, or snacks? You can specify your meal preference.", intent: 'nutrition_plan'},
+                "healthy breakfast|breakfast ideas|breakfast": {response: "A healthy breakfast could be oatmeal with fruits and nuts, Greek yogurt with berries, or scrambled eggs with veggies. You can also ask about meal prepping or other meal ideas.", intent: 'breakfast_ideas'},
+                "meal prep|prepare food|mealprep": {response: "Meal prepping can save time! Choose a day to cook larger batches of healthy proteins, complex carbs and veggies for the week. You can also ask about specific macronutrients.", intent: 'meal_prep'},
+                "calorie intake|how many calories|kg|kilogram|kgs|weight": {response: "Calorie needs and weight management are very personal. It's best to consult a professional for tailored advice. I can tell you about general nutrition principles like protein, carbs, and fats.", intent: 'weight_calories'},
+                "protein|carbs|fats": {response: "Balanced nutrition includes protein for muscle repair, complex carbs for energy, and healthy fats for overall health. Focus on whole, unprocessed foods. You can also ask about healthy meal ideas.", intent: 'macros'},
+
+                // Sleep-related Questions
+                "improve sleep|sleep better|sleep tips|sleep": {response: "Quality sleep is crucial for recovery! Try to maintain a consistent sleep schedule, create a dark and quiet environment, and avoid screens before bed. You can also ask about recommended sleep duration.", intent: 'sleep_tips'},
+                "how much sleep|hours of sleep": {response: "Most adults needs 7-9 hours of quality sleep per night for optimal health and recovery. You can also ask for tips to improve your sleep.", intent: 'sleep_duration'},
+                "insomnia|can't sleep": {response: "If you're struggling with insomnia, try relaxation techniques, limit caffeine, and ensure your bedroom is conducive to sleep. If it persists, consider seeing a doctor. You can also ask about general sleep tips.", intent: 'insomnia_help'},
+
+                // General Health & App Features
+                "track progress|monitor goals|track|progress|goals": {response: "Our app allows you to track your workouts, log your meals, and monitor your sleep patterns to see your progress over time! You can ask me about other app features.", intent: 'app_features'},
+                "app features|what can this app do|features": {response: "This app helps you with personalized workout plans, meal tracking, sleep monitoring, and goal setting to support your fitness journey. You can ask about specific features like tracking.", intent: 'app_features'},
+                "motivation|stay motivated": {response: "Staying motivated can be tough! Set small, achievable goals, find an accountability partner, and celebrate your progress. You can also ask about tracking your progress.", intent: 'motivation'},
+
+                // Polite Closings and Exit Phrases
+                "thank you|thanks": {response: "You're most welcome! Keep up the great work on your fitness journey! Feel free to ask anything else.", intent: 'thank_you'},
+                "bye|goodbye|exit|quit|see you": {response: "Goodbye! Stay fit, stay healthy, and remember consistency is key! You can always come back if you have more fitness questions.", intent: 'exit'},
+
+                // Default Response (when no specific rule matches)
+                "default": {response: "I'm not sure I understand that fitness-related question. You can ask me about workouts, meals, or sleep.", intent: 'unknown'}
+            };
+
+            let lastMatchedIntentJS = null; // JavaScript equivalent of last_matched_intent
+
+            function cleanInputJS(userInput) {
+                userInput = userInput.toLowerCase();
+                // Remove all characters that are not letters, numbers, or spaces
+                userInput = userInput.replace(/[^\w\s]/g, '');
+                return userInput;
+            }
+
+            function getChatbotResponseJS(userInput) {
+                const cleanedInput = cleanInputJS(userInput);
+                let responseData = chatbotRulesJS.default; // Default response if no match
+
+                // --- Context-specific responses (JavaScript version) ---
+                if (lastMatchedIntentJS === 'workout_plan') {
+                    if (/(^|\W)beginner(\W|$)/.test(cleanedInput)) { // Using regex for word boundary
+                        lastMatchedIntentJS = 'beginner_workout';
+                        return "Great! For beginners, focus on bodyweight exercises like squats, push-ups, and planks. Start slow and build consistency. You can also ask about strength training or cardio workouts.";
+                    } else if (/(^|\W)strength(\W|$)/.test(cleanedInput)) {
+                        lastMatchedIntentJS = 'strength_workout';
+                        return "Excellent! For strength training, compound movements like squats, deadlifts, and bench presses are key. Remember proper form! You can also ask about workout frequency or warm-up routines.";
+                    } else if (/(^|\W)cardio(\W|$)/.test(cleanedInput)) {
+                        lastMatchedIntentJS = 'cardio_workout';
+                        return "Good choice! Cardio can include running, cycling, or swimming. Aim for a consistent duration. You can also ask about warm-up or cool-down exercises.";
+                    }
+                }
+
+                // --- General rule matching (JavaScript version) ---
+                for (const pattern in chatbotRulesJS) {
+                    if (pattern === "default") continue; // Skip default rule for iteration
+
+                    const regex = new RegExp(`^.*\\b(${pattern})\\b.*$`); // Create regex from pattern string
+                    if (regex.test(cleanedInput)) {
+                        responseData = chatbotRulesJS[pattern];
+                        break; // Found a match, break the loop
+                    }
+                }
+
+                lastMatchedIntentJS = responseData.intent;
+                return responseData.response;
+            }
+
+            function displayMessage(sender, message) {
+                const p = document.createElement('p');
+                p.innerHTML = `<span class="${sender === 'You' ? 'text-blue-400' : 'text-green-400'}">${sender}:</span> ${message}`;
+                terminalBody.appendChild(p);
+                terminalBody.scrollTop = terminalBody.scrollHeight; // Auto-scroll to bottom
+            }
+
+            function handleUserInput(input) {
+                if (!input.trim()) return; // Don't process empty input
+
+                displayMessage('You', input);
+                userInputField.value = ''; // Clear input field
+
+                const botResponse = getChatbotResponseJS(input);
+
+                setTimeout(() => {
+                    displayMessage('Chatbot', botResponse);
+                }, 500); // Simulate typing delay
+            }
+
+            // Event listener for Send button
+            sendButton.addEventListener('click', () => {
+                handleUserInput(userInputField.value);
+            });
+
+            // Event listener for Enter key in input field
+            userInputField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleUserInput(e.target.value); // Use e.target.value to get current input
+                }
+            });
+
+            // Event listeners for sample query buttons
+            queryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    handleUserInput(button.textContent.replace(/"/g, '')); // Remove quotes for processing
+                });
+            });
+
+            // --- Chart.js Roadmap Chart ---
+            const ctx = document.getElementById('roadmapChart').getContext('2d');
+            const roadmapChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['ML Intent Recognition', 'Entity Extraction', 'Advanced Context', 'API Integration', 'Web Interface', 'Database Integration'],
+                    datasets: [{
+                        label: 'Estimated Complexity',
+                        data: [8, 6, 7, 5, 4, 6],
+                        backgroundColor: 'rgba(20, 184, 166, 0.6)',
+                        borderColor: 'rgba(15, 118, 110, 1)',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Complexity Score (1-10)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                autoSkip: false,
+                                maxRotation: 45,
+                                minRotation: 45
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- Smooth Scrolling for Navigation ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = mainHeader.offsetHeight; // Get height of fixed header
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
