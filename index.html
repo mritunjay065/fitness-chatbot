@@ -10,11 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
+        /* body { */
             /* font-family: 'Inter', sans-serif; */
             /* background-color: #F7F7F7; */
             /* color: #1a202c; */
-        }
+        /* } */
         .chart-container {
             position: relative;
             width: 100%;
@@ -34,25 +34,25 @@
             background-color: #718096;
             border-radius: 20px;
         }
- 
 
-   .dot {
-      animation: blink 1.4s infinite both;
-    }
 
-    .dot:nth-child(2) {
-      animation-delay: 0.2s;
-    }
+       .dot {
+         animation: blink 1.4s infinite both;
+       }
 
-    .dot:nth-child(3) {
-      animation-delay: 0.4s;
-    }
+        .dot:nth-child(2) {
+          animation-delay: 0.2s;
+        }
 
-    @keyframes blink {
-      0% { opacity: 0.2; }
-      20% { opacity: 1; }
-      100% { opacity: 0.2; }
-    }
+        .dot:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+          0% { opacity: 0.2; }
+          20% { opacity: 1; }
+          100% { opacity: 0.2; }
+        }
 
     </style>
 </head>
@@ -83,12 +83,12 @@
 
         <section class="text-center mb-20">
             <h2 class="text-4xl md:text-5xl font-extrabold text-black dark:text-gray-100 mb-4">Interactive Project Overview</h2>
-            <p class="text-lg text-black dark:text-gray-400  max-w-3xl mx-auto">A foundational rule-based chatbot designed for fitness enthusiasts. This interactive experience breaks down the project's features, limitations, and future potential.</p>
+            <p class="text-lg text-black dark:text-gray-400 max-w-3xl mx-auto">A foundational rule-based chatbot designed for fitness enthusiasts. This interactive experience breaks down the project's features, limitations, and future potential.</p>
         </section>
 
         <section id="highlights" class="mb-20">
             <h3 class="text-3xl font-bold text-center mb-2 text-black dark:text-gray-100">Project Highlights</h3>
-            <p class="text-md text-black dark:text-gray-400   text-center mb-12">This project showcases several key software development and NLP concepts. The core technical strengths are broken down into digestible, visually appealing chunks below.</p>
+            <p class="text-md text-black dark:text-gray-400 text-center mb-12">This project showcases several key software development and NLP concepts. The core technical strengths are broken down into digestible, visually appealing chunks below.</p>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 dark:bg-gray-800">
                     <div class="flex items-center mb-3">
@@ -100,23 +100,23 @@
                     <p class="text-gray-600 dark:text-gray-300">Implements a system of predefined rules and regular expressions to respond to user queries effectively.</p>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 dark:bg-gray-800">
-                     <div class="flex items-center mb-3">
-                        <div class="bg-teal-100 p-2 rounded-full mr-4">
-                           <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l-4 4-4-4-4 4"></path></svg>
+                           <div class="flex items-center mb-3">
+                                <div class="bg-teal-100 p-2 rounded-full mr-4">
+                                   <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l-4 4-4-4-4 4"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-semibold text-black dark:text-gray-100">Basic Context Management</h4>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300">A simple mechanism remembers the last user intent, allowing for more natural follow-up conversations.</p>
                         </div>
-                        <h4 class="text-xl font-semibold text-black dark:text-gray-100">Basic Context Management</h4>
-                    </div>
-                    <p class="text-gray-600 dark:text-gray-300">A simple mechanism remembers the last user intent, allowing for more natural follow-up conversations.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 dark:bg-gray-800">
-                     <div class="flex items-center mb-3">
-                        <div class="bg-teal-100 p-2 rounded-full mr-4">
-                           <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 dark:bg-gray-800">
+                           <div class="flex items-center mb-3">
+                                <div class="bg-teal-100 p-2 rounded-full mr-4">
+                                   <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <h4 class="text-xl font-semibold text-black dark:text-gray-100">Robust Input Handling</h4>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300">A dedicated function preprocesses user queries to normalize text for more reliable pattern matching.</p>
                         </div>
-                        <h4 class="text-xl font-semibold text-black dark:text-gray-100">Robust Input Handling</h4>
-                    </div>
-                    <p class="text-gray-600 dark:text-gray-300">A dedicated function preprocesses user queries to normalize text for more reliable pattern matching.</p>
-                </div>
             </div>
         </section>
 
@@ -124,7 +124,7 @@
 
         <section id="features" class="mb-20">
             <h3 class="text-3xl font-bold text-center mb-2 text-black dark:text-gray-100">Features Explorer</h3>
-            <p class="text-md text-black dark:text-gray-400   text-center mb-12">Experience the chatbot's capabilities! Type your own questions into the terminal below, or click on the sample queries to see instant responses.</p>
+            <p class="text-md text-black dark:text-gray-400 text-center mb-12">Experience the chatbot's capabilities! Type your own questions into the terminal below, or click on the sample queries to see instant responses.</p>
             <div class="w-full max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
                 <div class="bg-gray-700 p-3 flex items-center">
                     <div class="flex space-x-2">
@@ -145,7 +145,6 @@
     }
   </style>
   
-  <!-- Typing indicator and input section remains same -->
   <div id="typing-indicator" class="hidden text-gray-400 text-sm flex items-center gap-1">
     <span class="dot">.</span>
     <span class="dot">.</span>
@@ -182,7 +181,7 @@
 
         <section id="roadmap" class="mb-20">
             <h3 class="text-3xl font-bold text-center mb-2 text-black dark:text-gray-100">Project Roadmap</h3>
-            <p class="text-md text-black dark:text-gray-400   text-center mb-12">This project lays the groundwork for more advanced AI concepts. This chart visualizes the estimated complexity of future enhancements, demonstrating foresight and planning.</p>
+            <p class="text-md text-black dark:text-gray-400 text-center mb-12">This project lays the groundwork for more advanced AI concepts. This chart visualizes the estimated complexity of future enhancements, demonstrating foresight and planning.</p>
             <div class="bg-white p-4 sm:p-8 rounded-xl shadow-lg dark:bg-gray-800">
                 <div class="chart-container">
                     <canvas id="roadmapChart"></canvas>
@@ -209,14 +208,14 @@
                              <code class="block bg-gray-100 text-gray-800 p-2 rounded-md mt-2 text-sm dark:bg-gray-700 dark:text-gray-200">git clone https://github.com/Akki-jaiswal/fitness-chatbot.git</code>
                         </div>
                     </div>
-                     <div class="flex items-start">
-                        <div class="flex-shrink-0 w-10 h-10 bg-teal-600 text-white font-bold text-lg rounded-full flex items-center justify-center mr-4">3</div>
-                        <div>
-                            <h4 class="font-semibold text-lg text-black dark:text-gray-100">Execute Script</h4>
-                            <p class="text-black dark:text-gray-400">Navigate to the project directory and run the script from your terminal:</p>
-                             <code class="block bg-gray-100 text-gray-800 p-2 rounded-md mt-2 text-sm dark:bg-gray-700 dark:text-gray-200">python chatbot.py</code>
+                       <div class="flex items-start">
+                            <div class="flex-shrink-0 w-10 h-10 bg-teal-600 text-white font-bold text-lg rounded-full flex items-center justify-center mr-4">3</div>
+                            <div>
+                                <h4 class="font-semibold text-lg text-black dark:text-gray-100">Execute Script</h4>
+                                <p class="text-black dark:text-gray-400">Navigate to the project directory and run the script from your terminal:</p>
+                                 <code class="block bg-gray-100 text-gray-800 p-2 rounded-md mt-2 text-sm dark:bg-gray-700 dark:text-gray-200">python chatbot.py</code>
+                            </div>
                         </div>
-                    </div>
                 </div>
             </div>
             <div class="lg:col-span-2 bg-white p-8 rounded-xl shadow-lg dark:bg-gray-800">
@@ -254,7 +253,7 @@
         const lightIcon = document.getElementById('theme-toggle-light-icon');
 
         // Theme handling
-        if (localStorage.getItem('theme') === 'dark' || 
+        if (localStorage.getItem('theme') === 'dark' ||
             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
             darkIcon.classList.add('hidden');
@@ -428,56 +427,19 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Complexity Score (1-10)'
-
-            // Event listeners for sample query buttons
-            queryButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    handleUserInput(button.textContent.replace(/"/g, '')); // Remove quotes for processing
-                });
-            });
-
-            // --- Chart.js Roadmap Chart ---
-            const ctx = document.getElementById('roadmapChart').getContext('2d');
-            const roadmapChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['ML Intent Recognition', 'Entity Extraction', 'Advanced Context', 'API Integration', 'Web Interface', 'Database Integration'],
-                    datasets: [{
-                        label: 'Estimated Complexity',
-                        data: [8, 6, 7, 5, 4, 6],
-                        backgroundColor: 'rgba(20, 184, 166, 0.6)',
-                        borderColor: 'rgba(15, 118, 110, 1)',
-                        borderWidth: 1,
-                        borderRadius: 5,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Complexity Score (1-10)',
-                                color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
-                            }
+                            text: 'Complexity Score (1-10)',
+                            color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
                         },
-                        x: {
-                            ticks: {
-                                autoSkip: false,
-                                maxRotation: 45,
-                                minRotation: 45,
-                                color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
-                            }
+                         ticks: { // Added ticks for y-axis
+                            color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
                         }
                     },
                     x: {
                         ticks: {
                             autoSkip: false,
                             maxRotation: 45,
-                            minRotation: 45
+                            minRotation: 45,
+                            color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
                         }
                     }
                 },
@@ -526,7 +488,7 @@
     tailwind.config = {
         darkMode: 'class'
     }
-  
+    
     </script>
     
 </body>
