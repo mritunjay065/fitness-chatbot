@@ -34,7 +34,7 @@
             background-color: #718096;
             border-radius: 20px;
         }
- 
+
 
    .dot {
       animation: blink 1.4s infinite both;
@@ -120,7 +120,7 @@
             </div>
         </section>
 
-        
+
 
         <section id="features" class="mb-20">
             <h3 class="text-3xl font-bold text-center mb-2 text-black dark:text-gray-100">Features Explorer</h3>
@@ -144,8 +144,7 @@
       display: none; /* Hide scrollbar for Chrome/Safari */
     }
   </style>
-  
-  <!-- Typing indicator and input section remains same -->
+
   <div id="typing-indicator" class="hidden text-gray-400 text-sm flex items-center gap-1">
     <span class="dot">.</span>
     <span class="dot">.</span>
@@ -177,7 +176,7 @@
     <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"How much sleep?"</button>
     <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"motivation"</button>
 </div>
-            
+
         </section>
 
         <section id="roadmap" class="mb-20">
@@ -243,197 +242,166 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        const chatBox = document.getElementById("chat-box");
-        const typingIndicator = document.getElementById("typing-indicator");
-        const queryButtons = document.querySelectorAll('.query-btn');
-        const userInputField = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-btn');
-        const mainHeader = document.getElementById('main-header');
-        const toggleBtn = document.getElementById('theme-toggle');
-        const darkIcon = document.getElementById('theme-toggle-dark-icon');
-        const lightIcon = document.getElementById('theme-toggle-light-icon');
+            const chatBox = document.getElementById("chat-box");
+            const typingIndicator = document.getElementById("typing-indicator");
+            const queryButtons = document.querySelectorAll('.query-btn');
+            const userInputField = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-btn');
+            const mainHeader = document.getElementById('main-header');
+            const toggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
 
-        // Theme handling
-        if (localStorage.getItem('theme') === 'dark' || 
-            (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-            darkIcon.classList.add('hidden');
-            lightIcon.classList.remove('hidden');
-        } else {
-            document.documentElement.classList.remove('dark');
-            lightIcon.classList.add('hidden');
-            darkIcon.classList.remove('hidden');
-        }
-
-        toggleBtn.addEventListener('click', () => {
-            darkIcon.classList.toggle('hidden');
-            lightIcon.classList.toggle('hidden');
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
+            // Theme handling
+            if (localStorage.getItem('theme') === 'dark' ||
+                (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
-        // Chatbot Rules
-        const chatbotRulesJS = {
-            // Greetings and Introductions
-            "hi|hello|hey|greetings": {response: "Hello there! Welcome to your fitness companion. How can I help you achieve your health goals today? You can ask me about workouts, meals, or sleep.", intent: 'greeting'},
-            "how are you|how's it going": {response: "I'm a bot designed to help you with your fitness journey! How are you feeling today? Feel free to ask about workouts, nutrition, or sleep.", intent: 'greeting'},
-            "what is your name|who are you": {response: "I'm your friendly Fitness Bot, here to answer your questions about health, workouts, and nutrition. What would you like to know?", intent: 'greeting'},
-
-            // Workout-related Questions
-            "workout plan|exercise routine|gym plan|workout|exercise|gym": {response: "I can help with workout plans! Are you looking for something for beginners, strength training, cardio, or flexibility? You can specify your preference.", intent: 'workout_plan'},
-            "beginner|start exercising": {response: "For beginners, I recommend starting with bodyweight exercises like squats, push-ups (on knees if needed), and planks. Consistency is key! You can also ask about strength training or cardio.", intent: 'beginner_workout'},
-            "strength|strength training|build muscle": {response: "Strength training is great! Focus on compound movements like squats, deadlifts, bench press, and overhead press. Ensure proper form! You can also ask about workout frequency or warm-up routines.", intent: 'strength_workout'},
-            "cardio|endurance": {response: "Cardio helps heart health! Consider running, cycling, swimming, or brisk walking. Aim for at least 30 minutes most days. You can also ask about warm-up or cool-down exercises.", intent: 'cardio_workout'},
-            "warm up|cool down|warmup|cooldown": {response: "Always warm up for 5-10 minutes before and cool down for 5-10 minutes after your workout to prevent injuries. You can also ask about different workout types.", intent: 'workout_prep'},
-            "how many times a week|workout frequency|frequency": {response: "For general fitness, aim for 3-5 workout sessions per week, allowing for rest days. You can also ask about specific exercises.", intent: 'workout_frequency'},
-
-            // Meal and Nutrition Questions
-            "healthy meals|diet plan|nutrition advice|meals|diet|nutrition": {response: "Nutrition is vital! Are you interested in meal ideas for breakfast, lunch, dinner, or snacks? You can specify your meal preference.", intent: 'nutrition_plan'},
-            "healthy breakfast|breakfast ideas|breakfast": {response: "A healthy breakfast could be oatmeal with fruits and nuts, Greek yogurt with berries, or scrambled eggs with veggies. You can also ask about meal prepping or other meal ideas.", intent: 'breakfast_ideas'},
-            "meal prep|prepare food|mealprep": {response: "Meal prepping can save time! Choose a day to cook larger batches of healthy proteins, complex carbs and veggies for the week. You can also ask about specific macronutrients.", intent: 'meal_prep'},
-            "calorie intake|how many calories|kg|kilogram|kgs|weight": {response: "Calorie needs and weight management are very personal. It's best to consult a professional for tailored advice. I can tell you about general nutrition principles like protein, carbs, and fats.", intent: 'weight_calories'},
-            "protein|carbs|fats": {response: "Balanced nutrition includes protein for muscle repair, complex carbs for energy, and healthy fats for overall health. Focus on whole, unprocessed foods. You can also ask about healthy meal ideas.", intent: 'macros'},
-
-            // Sleep-related Questions
-            "improve sleep|sleep better|sleep tips|sleep": {response: "Quality sleep is crucial for recovery! Try to maintain a consistent sleep schedule, create a dark and quiet environment, and avoid screens before bed. You can also ask about recommended sleep duration.", intent: 'sleep_tips'},
-            "how much sleep|hours of sleep": {response: "Most adults needs 7-9 hours of quality sleep per night for optimal health and recovery. You can also ask for tips to improve your sleep.", intent: 'sleep_duration'},
-            "insomnia|can't sleep": {response: "If you're struggling with insomnia, try relaxation techniques, limit caffeine, and ensure your bedroom is conducive to sleep. If it persists, consider seeing a doctor. You can also ask about general sleep tips.", intent: 'insomnia_help'},
-
-            // General Health & App Features
-            "track progress|monitor goals|track|progress|goals": {response: "Our app allows you to track your workouts, log your meals, and monitor your sleep patterns to see your progress over time! You can ask me about other app features.", intent: 'app_features'},
-            "app features|what can this app do|features": {response: "This app helps you with personalized workout plans, meal tracking, sleep monitoring, and goal setting to support your fitness journey. You can ask about specific features like tracking.", intent: 'app_features'},
-            "motivation|stay motivated": {response: "Staying motivated can be tough! Set small, achievable goals, find an accountability partner, and celebrate your progress. You can also ask about tracking your progress.", intent: 'motivation'},
-
-            // Polite Closings and Exit Phrases
-            "thank you|thanks": {response: "You're most welcome! Keep up the great work on your fitness journey! Feel free to ask anything else.", intent: 'thank_you'},
-            "bye|goodbye|exit|quit|see you": {response: "Goodbye! Stay fit, stay healthy, and remember consistency is key! You can always come back if you have more fitness questions.", intent: 'exit'},
-
-            // Default Response (when no specific rule matches)
-            "default": {response: "I'm not sure I understand that fitness-related question. You can ask me about workouts, meals, or sleep.", intent: 'unknown'}
-        };
-
-        let lastMatchedIntentJS = null;
-
-        function cleanInputJS(userInput) {
-            userInput = userInput.toLowerCase();
-            userInput = userInput.replace(/[^\w\s]/g, '');
-            return userInput;
-        }
-
-        function getChatbotResponseJS(userInput) {
-            const cleanedInput = cleanInputJS(userInput);
-            let responseData = chatbotRulesJS.default;
-
-            // Context-specific responses
-            if (lastMatchedIntentJS === 'workout_plan') {
-                if (/(^|\W)beginner(\W|$)/.test(cleanedInput)) {
-                    lastMatchedIntentJS = 'beginner_workout';
-                    return "Great! For beginners, focus on bodyweight exercises like squats, push-ups, and planks. Start slow and build consistency. You can also ask about strength training or cardio workouts.";
-                } else if (/(^|\W)strength(\W|$)/.test(cleanedInput)) {
-                    lastMatchedIntentJS = 'strength_workout';
-                    return "Excellent! For strength training, compound movements like squats, deadlifts, and bench presses are key. Remember proper form! You can also ask about workout frequency or warm-up routines.";
-                } else if (/(^|\W)cardio(\W|$)/.test(cleanedInput)) {
-                    lastMatchedIntentJS = 'cardio_workout';
-                    return "Good choice! Cardio can include running, cycling, or swimming. Aim for a consistent duration. You can also ask about warm-up or cool-down exercises.";
-                }
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                lightIcon.classList.add('hidden');
+                darkIcon.classList.remove('hidden');
             }
 
-            // General rule matching
-            for (const pattern in chatbotRulesJS) {
-                if (pattern === "default") continue;
-
-                const regex = new RegExp(`^.*\\b(${pattern})\\b.*$`);
-                if (regex.test(cleanedInput)) {
-                    responseData = chatbotRulesJS[pattern];
-                    break;
-                }
-            }
-
-            lastMatchedIntentJS = responseData.intent;
-            return responseData.response;
-        }
-
-  function appendMessage(sender, message) {
-    const p = document.createElement('p');
-    p.innerHTML = `<span class="${sender === 'You' ? 'text-blue-400' : 'text-green-400'}">${sender}:</span> ${message}`;
-    chatBox.appendChild(p);
-    
-    // Smooth scroll to bottom without showing scrollbar
-    chatBox.scrollTo({
-        top: chatBox.scrollHeight,
-        behavior: 'smooth'
-    });
-}
-
-        function handleUserInput(userInput) {
-            if (userInput.trim() === "") return;
-
-            appendMessage("You", userInput);
-            userInputField.value = "";
-
-            typingIndicator.classList.remove('hidden');
-
-            setTimeout(() => {
-                typingIndicator.classList.add('hidden');
-                const botResponse = getChatbotResponseJS(userInput);
-                appendMessage("Chatbot", botResponse);
-            }, 1500);
-        }
-
-        // Event listeners
-        sendButton.addEventListener('click', () => {
-            handleUserInput(userInputField.value);
-        });
-
-        userInputField.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                handleUserInput(e.target.value);
-            }
-        });
-
-        queryButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const query = button.textContent.replace(/"/g, '').trim();
-                if (query) {
-                    handleUserInput(query);
+            toggleBtn.addEventListener('click', () => {
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
                 }
             });
-        });
 
-        // Chart.js Roadmap Chart
-        const ctx = document.getElementById('roadmapChart').getContext('2d');
-        const roadmapChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['ML Intent Recognition', 'Entity Extraction', 'Advanced Context', 'API Integration', 'Web Interface', 'Database Integration'],
-                datasets: [{
-                    label: 'Estimated Complexity',
-                    data: [8, 6, 7, 5, 4, 6],
-                    backgroundColor: 'rgba(20, 184, 166, 0.6)',
-                    borderColor: 'rgba(15, 118, 110, 1)',
-                    borderWidth: 1,
-                    borderRadius: 5,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Complexity Score (1-10)'
+            // Chatbot Rules
+            const chatbotRulesJS = {
+                // Greetings and Introductions
+                "hi|hello|hey|greetings": { response: "Hello there! Welcome to your fitness companion. How can I help you achieve your health goals today? You can ask me about workouts, meals, or sleep.", intent: 'greeting' },
+                "how are you|how's it going": { response: "I'm a bot designed to help you with your fitness journey! How are you feeling today? Feel free to ask about workouts, nutrition, or sleep.", intent: 'greeting' },
+                "what is your name|who are you": { response: "I'm your friendly Fitness Bot, here to answer your questions about health, workouts, and nutrition. What would you like to know?", intent: 'greeting' },
+
+                // Workout-related Questions
+                "workout plan|exercise routine|gym plan|workout|exercise|gym": { response: "I can help with workout plans! Are you looking for something for beginners, strength training, cardio, or flexibility? You can specify your preference.", intent: 'workout_plan' },
+                "beginner|start exercising": { response: "For beginners, I recommend starting with bodyweight exercises like squats, push-ups (on knees if needed), and planks. Consistency is key! You can also ask about strength training or cardio.", intent: 'beginner_workout' },
+                "strength|strength training|build muscle": { response: "Strength training is great! Focus on compound movements like squats, deadlifts, bench press, and overhead press. Ensure proper form! You can also ask about workout frequency or warm-up routines.", intent: 'strength_workout' },
+                "cardio|endurance": { response: "Cardio helps heart health! Consider running, cycling, swimming, or brisk walking. Aim for at least 30 minutes most days. You can also ask about warm-up or cool-down exercises.", intent: 'cardio_workout' },
+                "warm up|cool down|warmup|cooldown": { response: "Always warm up for 5-10 minutes before and cool down for 5-10 minutes after your workout to prevent injuries. You can also ask about different workout types.", intent: 'workout_prep' },
+                "how many times a week|workout frequency|frequency": { response: "For general fitness, aim for 3-5 workout sessions per week, allowing for rest days. You can also ask about specific exercises.", intent: 'workout_frequency' },
+
+                // Meal and Nutrition Questions
+                "healthy meals|diet plan|nutrition advice|meals|diet|nutrition": { response: "Nutrition is vital! Are you interested in meal ideas for breakfast, lunch, dinner, or snacks? You can specify your meal preference.", intent: 'nutrition_plan' },
+                "healthy breakfast|breakfast ideas|breakfast": { response: "A healthy breakfast could be oatmeal with fruits and nuts, Greek yogurt with berries, or scrambled eggs with veggies. You can also ask about meal prepping or other meal ideas.", intent: 'breakfast_ideas' },
+                "meal prep|prepare food|mealprep": { response: "Meal prepping can save time! Choose a day to cook larger batches of healthy proteins, complex carbs and veggies for the week. You can also ask about specific macronutrients.", intent: 'meal_prep' },
+                "calorie intake|how many calories|kg|kilogram|kgs|weight": { response: "Calorie needs and weight management are very personal. It's best to consult a professional for tailored advice. I can tell you about general nutrition principles like protein, carbs, and fats.", intent: 'weight_calories' },
+                "protein|carbs|fats": { response: "Balanced nutrition includes protein for muscle repair, complex carbs for energy, and healthy fats for overall health. Focus on whole, unprocessed foods. You can also ask about healthy meal ideas.", intent: 'macros' },
+
+                // Sleep-related Questions
+                "improve sleep|sleep better|sleep tips|sleep": { response: "Quality sleep is crucial for recovery! Try to maintain a consistent sleep schedule, create a dark and quiet environment, and avoid screens before bed. You can also ask about recommended sleep duration.", intent: 'sleep_tips' },
+                "how much sleep|hours of sleep": { response: "Most adults needs 7-9 hours of quality sleep per night for optimal health and recovery. You can also ask for tips to improve your sleep.", intent: 'sleep_duration' },
+                "insomnia|can't sleep": { response: "If you're struggling with insomnia, try relaxation techniques, limit caffeine, and ensure your bedroom is conducive to sleep. If it persists, consider seeing a doctor. You can also ask about general sleep tips.", intent: 'insomnia_help' },
+
+                // General Health & App Features
+                "track progress|monitor goals|track|progress|goals": { response: "Our app allows you to track your workouts, log your meals, and monitor your sleep patterns to see your progress over time! You can ask me about other app features.", intent: 'app_features' },
+                "app features|what can this app do|features": { response: "This app helps you with personalized workout plans, meal tracking, sleep monitoring, and goal setting to support your fitness journey. You can ask about specific features like tracking.", intent: 'app_features' },
+                "motivation|stay motivated": { response: "Staying motivated can be tough! Set small, achievable goals, find an accountability partner, and celebrate your progress. You can also ask about tracking your progress.", intent: 'motivation' },
+
+                // Polite Closings and Exit Phrases
+                "thank you|thanks": { response: "You're most welcome! Keep up the great work on your fitness journey! Feel free to ask anything else.", intent: 'thank_you' },
+                "bye|goodbye|exit|quit|see you": { response: "Goodbye! Stay fit, stay healthy, and remember consistency is key! You can always come back if you have more fitness questions.", intent: 'exit' },
+
+                // Default Response (when no specific rule matches)
+                "default": { response: "I'm not sure I understand that fitness-related question. You can ask me about workouts, meals, or sleep.", intent: 'unknown' }
+            };
+
+            let lastMatchedIntentJS = null;
+
+            function cleanInputJS(userInput) {
+                userInput = userInput.toLowerCase();
+                userInput = userInput.replace(/[^\w\s]/g, '');
+                return userInput;
+            }
+
+            function getChatbotResponseJS(userInput) {
+                const cleanedInput = cleanInputJS(userInput);
+                let responseData = chatbotRulesJS.default;
+
+                // Context-specific responses
+                if (lastMatchedIntentJS === 'workout_plan') {
+                    if (/(^|\W)beginner(\W|$)/.test(cleanedInput)) {
+                        lastMatchedIntentJS = 'beginner_workout'; // Corrected typo here, was lastMatchedIntentIntentJS
+                        return "Great! For beginners, focus on bodyweight exercises like squats, push-ups, and planks. Start slow and build consistency. You can also ask about strength training or cardio workouts.";
+                    } else if (/(^|\W)strength(\W|$)/.test(cleanedInput)) {
+                        lastMatchedIntentJS = 'strength_workout';
+                        return "Excellent! For strength training, compound movements like squats, deadlifts, and bench presses are key. Remember proper form! You can also ask about workout frequency or warm-up routines.";
+                    } else if (/(^|\W)cardio(\W|$)/.test(cleanedInput)) {
+                        lastMatchedIntentJS = 'cardio_workout';
+                        return "Good choice! Cardio can include running, cycling, or swimming. Aim for a consistent duration. You can also ask about warm-up or cool-down exercises.";
+                    }
+                }
+
+                // General rule matching
+                for (const pattern in chatbotRulesJS) {
+                    if (pattern === "default") continue;
+
+                    const regex = new RegExp(`^.*\\b(${pattern})\\b.*$`);
+                    if (regex.test(cleanedInput)) {
+                        responseData = chatbotRulesJS[pattern];
+                        break;
+                    }
+                }
+
+                lastMatchedIntentJS = responseData.intent;
+                return responseData.response;
+            }
+
+            function appendMessage(sender, message) {
+                const p = document.createElement('p');
+                p.innerHTML = `<span class="${sender === 'You' ? 'text-blue-400' : 'text-green-400'}">${sender}:</span> ${message}`;
+                chatBox.appendChild(p);
+
+                // Smooth scroll to bottom without showing scrollbar
+                chatBox.scrollTo({
+                    top: chatBox.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            function handleUserInput(userInput) {
+                if (userInput.trim() === "") return;
+
+                appendMessage("You", userInput);
+                userInputField.value = "";
+
+                typingIndicator.classList.remove('hidden');
+
+                setTimeout(() => {
+                    typingIndicator.classList.add('hidden');
+                    const botResponse = getChatbotResponseJS(userInput);
+                    appendMessage("Chatbot", botResponse);
+                }, 1500);
+            }
+
+            // Event listeners for send button and enter key
+            sendButton.addEventListener('click', () => {
+                handleUserInput(userInputField.value);
+            });
+
+            userInputField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    handleUserInput(e.target.value);
+                }
+            });
 
             // Event listeners for sample query buttons
             queryButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    handleUserInput(button.textContent.replace(/"/g, '')); // Remove quotes for processing
+                    const query = button.textContent.replace(/"/g, '').trim(); // Remove quotes and trim whitespace
+                    if (query) { // Ensure query is not empty after trimming
+                        handleUserInput(query);
+                    }
                 });
             });
 
@@ -462,6 +430,9 @@
                                 display: true,
                                 text: 'Complexity Score (1-10)',
                                 color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
+                            },
+                            ticks: {
+                                color: 'rgb(209 213 219)' // Gray-300 for dark mode, default black
                             }
                         },
                         x: {
@@ -473,61 +444,53 @@
                             }
                         }
                     },
-                    x: {
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) {
-                                    label += ': ';
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
                                 }
-                                if (context.parsed.y !== null) {
-                                    label += context.parsed.y;
-                                }
-                                return label;
                             }
                         }
                     }
                 }
-            }
-        });
-
-        // Smooth Scrolling for Navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    const headerOffset = mainHeader.offsetHeight;
-                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                    const offsetPosition = elementPosition - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-                }
             });
-        });
-    });
 
-    tailwind.config = {
-        darkMode: 'class'
-    }
-  
+            // Smooth Scrolling for Navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = mainHeader.offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        }); // End of DOMContentLoaded listener
+
+        // Tailwind CSS configuration (should be outside DOMContentLoaded)
+        tailwind.config = {
+            darkMode: 'class'
+        }
     </script>
-    
+
 </body>
 </html>
