@@ -34,6 +34,26 @@
             background-color: #718096;
             border-radius: 20px;
         }
+ 
+
+   .dot {
+      animation: blink 1.4s infinite both;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.2; }
+      20% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+
     </style>
 </head>
 <body class="antialiased dark:bg-gray-900 dark:text-gray-100 bg-white text-black">
@@ -100,6 +120,8 @@
             </div>
         </section>
 
+        
+
         <section id="features" class="mb-20">
             <h3 class="text-3xl font-bold text-center mb-2 text-black dark:text-gray-100">Features Explorer</h3>
             <p class="text-md text-black dark:text-gray-400   text-center mb-12">Experience the chatbot's capabilities! Type your own questions into the terminal below, or click on the sample queries to see instant responses.</p>
@@ -112,20 +134,50 @@
                     </div>
                     <p class="text-center text-sm text-gray-400 flex-grow">bash -- FitnessBot</p>
                 </div>
-                <div id="terminal-body" class="terminal-body h-96 p-4 text-white font-mono text-sm overflow-y-auto">
-                    <p><span class="text-green-400">Chatbot:</span> Hello! I'm your Fitness Bot. Ask me about workouts, meals, or sleep!</p>
-                </div>
-                <div class="p-4 bg-gray-700 flex space-x-2">
-                    <input type="text" id="user-input" class="flex-grow bg-gray-900 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Type your question here...">
-                    <button id="send-btn" class="bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition">Send</button>
-                </div>
-            </div>
-            <div class="w-full max-w-4xl mx-auto mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"What's a good workout plan?"</button>
-                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"breakfast ideas"</button>
-                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"How much sleep?"</button>
-                <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"motivation"</button>
-            </div>
+
+  <div id="terminal-body" class="terminal-body h-96 p-4 text-white font-mono text-sm overflow-hidden">
+  <div id="chat-box" class="h-64 overflow-y-auto mb-4 p-2 border border-gray-700 rounded text-sm font-mono scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+    <p><span class="text-green-400">Chatbot:</span> Hello! I'm your Fitness Bot.</p>
+  </div>
+  <style>
+    #chat-box::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for Chrome/Safari */
+    }
+  </style>
+  
+  <!-- Typing indicator and input section remains same -->
+  <div id="typing-indicator" class="hidden text-gray-400 text-sm flex items-center gap-1">
+    <span class="dot">.</span>
+    <span class="dot">.</span>
+    <span class="dot">.</span>
+    <span>Bot is typing...</span>
+  </div>
+
+  <div class="p-4 bg-gray-700 flex space-x-2">
+    <input
+      type="text"
+      id="user-input"
+      class="flex-grow bg-gray-900 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+      placeholder="Type your question here..."
+    />
+    <button
+      id="send-btn"
+      class="bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition"
+    >
+      Send
+    </button>
+  </div>
+</div>
+
+
+</div>
+<div class="w-full max-w-4xl mx-auto mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+    <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"What's a good workout plan?"</button>
+    <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"breakfast ideas"</button>
+    <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"How much sleep?"</button>
+    <button class="query-btn bg-teal-500 text-white py-2 px-3 rounded-lg hover:bg-teal-600 transition text-sm">"motivation"</button>
+</div>
+            
         </section>
 
         <section id="roadmap" class="mb-20">
@@ -191,17 +243,17 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const terminalBody = document.getElementById('terminal-body');
-            const queryButtons = document.querySelectorAll('.query-btn');
-            const userInputField = document.getElementById('user-input');
-            const sendButton = document.getElementById('send-btn');
-            const mainHeader = document.getElementById('main-header'); // Get the header element
-
-              const toggleBtn = document.getElementById('theme-toggle');
+        const chatBox = document.getElementById("chat-box");
+        const typingIndicator = document.getElementById("typing-indicator");
+        const queryButtons = document.querySelectorAll('.query-btn');
+        const userInputField = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-btn');
+        const mainHeader = document.getElementById('main-header');
+        const toggleBtn = document.getElementById('theme-toggle');
         const darkIcon = document.getElementById('theme-toggle-dark-icon');
         const lightIcon = document.getElementById('theme-toggle-light-icon');
 
-        // Load theme from localStorage
+        // Theme handling
         if (localStorage.getItem('theme') === 'dark' || 
             (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -213,7 +265,6 @@
             darkIcon.classList.remove('hidden');
         }
 
-        // Theme toggle click event
         toggleBtn.addEventListener('click', () => {
             darkIcon.classList.toggle('hidden');
             lightIcon.classList.toggle('hidden');
@@ -226,120 +277,158 @@
             }
         });
 
-            // --- Replicated Chatbot Logic (JavaScript Version) ---
-            // This mirrors the Python chatbot_rules for the interactive demo.
-            const chatbotRulesJS = {
-                // Greetings and Introductions
-                "hi|hello|hey|greetings": {response: "Hello there! Welcome to your fitness companion. How can I help you achieve your health goals today? You can ask me about workouts, meals, or sleep.", intent: 'greeting'},
-                "how are you|how's it going": {response: "I'm a bot designed to help you with your fitness journey! How are you feeling today? Feel free to ask about workouts, nutrition, or sleep.", intent: 'greeting'},
-                "what is your name|who are you": {response: "I'm your friendly Fitness Bot, here to answer your questions about health, workouts, and nutrition. What would you like to know?", intent: 'greeting'},
+        // Chatbot Rules
+        const chatbotRulesJS = {
+            // Greetings and Introductions
+            "hi|hello|hey|greetings": {response: "Hello there! Welcome to your fitness companion. How can I help you achieve your health goals today? You can ask me about workouts, meals, or sleep.", intent: 'greeting'},
+            "how are you|how's it going": {response: "I'm a bot designed to help you with your fitness journey! How are you feeling today? Feel free to ask about workouts, nutrition, or sleep.", intent: 'greeting'},
+            "what is your name|who are you": {response: "I'm your friendly Fitness Bot, here to answer your questions about health, workouts, and nutrition. What would you like to know?", intent: 'greeting'},
 
-                // Workout-related Questions
-                "workout plan|exercise routine|gym plan|workout|exercise|gym": {response: "I can help with workout plans! Are you looking for something for beginners, strength training, cardio, or flexibility? You can specify your preference.", intent: 'workout_plan'},
-                "beginner|start exercising": {response: "For beginners, I recommend starting with bodyweight exercises like squats, push-ups (on knees if needed), and planks. Consistency is key! You can also ask about strength training or cardio.", intent: 'beginner_workout'},
-                "strength|strength training|build muscle": {response: "Strength training is great! Focus on compound movements like squats, deadlifts, bench press, and overhead press. Ensure proper form! You can also ask about workout frequency or warm-up routines.", intent: 'strength_workout'},
-                "cardio|endurance": {response: "Cardio helps heart health! Consider running, cycling, swimming, or brisk walking. Aim for at least 30 minutes most days. You can also ask about warm-up or cool-down exercises.", intent: 'cardio_workout'},
-                "warm up|cool down|warmup|cooldown": {response: "Always warm up for 5-10 minutes before and cool down for 5-10 minutes after your workout to prevent injuries. You can also ask about different workout types.", intent: 'workout_prep'},
-                "how many times a week|workout frequency|frequency": {response: "For general fitness, aim for 3-5 workout sessions per week, allowing for rest days. You can also ask about specific exercises.", intent: 'workout_frequency'},
+            // Workout-related Questions
+            "workout plan|exercise routine|gym plan|workout|exercise|gym": {response: "I can help with workout plans! Are you looking for something for beginners, strength training, cardio, or flexibility? You can specify your preference.", intent: 'workout_plan'},
+            "beginner|start exercising": {response: "For beginners, I recommend starting with bodyweight exercises like squats, push-ups (on knees if needed), and planks. Consistency is key! You can also ask about strength training or cardio.", intent: 'beginner_workout'},
+            "strength|strength training|build muscle": {response: "Strength training is great! Focus on compound movements like squats, deadlifts, bench press, and overhead press. Ensure proper form! You can also ask about workout frequency or warm-up routines.", intent: 'strength_workout'},
+            "cardio|endurance": {response: "Cardio helps heart health! Consider running, cycling, swimming, or brisk walking. Aim for at least 30 minutes most days. You can also ask about warm-up or cool-down exercises.", intent: 'cardio_workout'},
+            "warm up|cool down|warmup|cooldown": {response: "Always warm up for 5-10 minutes before and cool down for 5-10 minutes after your workout to prevent injuries. You can also ask about different workout types.", intent: 'workout_prep'},
+            "how many times a week|workout frequency|frequency": {response: "For general fitness, aim for 3-5 workout sessions per week, allowing for rest days. You can also ask about specific exercises.", intent: 'workout_frequency'},
 
-                // Meal and Nutrition Questions
-                "healthy meals|diet plan|nutrition advice|meals|diet|nutrition": {response: "Nutrition is vital! Are you interested in meal ideas for breakfast, lunch, dinner, or snacks? You can specify your meal preference.", intent: 'nutrition_plan'},
-                "healthy breakfast|breakfast ideas|breakfast": {response: "A healthy breakfast could be oatmeal with fruits and nuts, Greek yogurt with berries, or scrambled eggs with veggies. You can also ask about meal prepping or other meal ideas.", intent: 'breakfast_ideas'},
-                "meal prep|prepare food|mealprep": {response: "Meal prepping can save time! Choose a day to cook larger batches of healthy proteins, complex carbs and veggies for the week. You can also ask about specific macronutrients.", intent: 'meal_prep'},
-                "calorie intake|how many calories|kg|kilogram|kgs|weight": {response: "Calorie needs and weight management are very personal. It's best to consult a professional for tailored advice. I can tell you about general nutrition principles like protein, carbs, and fats.", intent: 'weight_calories'},
-                "protein|carbs|fats": {response: "Balanced nutrition includes protein for muscle repair, complex carbs for energy, and healthy fats for overall health. Focus on whole, unprocessed foods. You can also ask about healthy meal ideas.", intent: 'macros'},
+            // Meal and Nutrition Questions
+            "healthy meals|diet plan|nutrition advice|meals|diet|nutrition": {response: "Nutrition is vital! Are you interested in meal ideas for breakfast, lunch, dinner, or snacks? You can specify your meal preference.", intent: 'nutrition_plan'},
+            "healthy breakfast|breakfast ideas|breakfast": {response: "A healthy breakfast could be oatmeal with fruits and nuts, Greek yogurt with berries, or scrambled eggs with veggies. You can also ask about meal prepping or other meal ideas.", intent: 'breakfast_ideas'},
+            "meal prep|prepare food|mealprep": {response: "Meal prepping can save time! Choose a day to cook larger batches of healthy proteins, complex carbs and veggies for the week. You can also ask about specific macronutrients.", intent: 'meal_prep'},
+            "calorie intake|how many calories|kg|kilogram|kgs|weight": {response: "Calorie needs and weight management are very personal. It's best to consult a professional for tailored advice. I can tell you about general nutrition principles like protein, carbs, and fats.", intent: 'weight_calories'},
+            "protein|carbs|fats": {response: "Balanced nutrition includes protein for muscle repair, complex carbs for energy, and healthy fats for overall health. Focus on whole, unprocessed foods. You can also ask about healthy meal ideas.", intent: 'macros'},
 
-                // Sleep-related Questions
-                "improve sleep|sleep better|sleep tips|sleep": {response: "Quality sleep is crucial for recovery! Try to maintain a consistent sleep schedule, create a dark and quiet environment, and avoid screens before bed. You can also ask about recommended sleep duration.", intent: 'sleep_tips'},
-                "how much sleep|hours of sleep": {response: "Most adults needs 7-9 hours of quality sleep per night for optimal health and recovery. You can also ask for tips to improve your sleep.", intent: 'sleep_duration'},
-                "insomnia|can't sleep": {response: "If you're struggling with insomnia, try relaxation techniques, limit caffeine, and ensure your bedroom is conducive to sleep. If it persists, consider seeing a doctor. You can also ask about general sleep tips.", intent: 'insomnia_help'},
+            // Sleep-related Questions
+            "improve sleep|sleep better|sleep tips|sleep": {response: "Quality sleep is crucial for recovery! Try to maintain a consistent sleep schedule, create a dark and quiet environment, and avoid screens before bed. You can also ask about recommended sleep duration.", intent: 'sleep_tips'},
+            "how much sleep|hours of sleep": {response: "Most adults needs 7-9 hours of quality sleep per night for optimal health and recovery. You can also ask for tips to improve your sleep.", intent: 'sleep_duration'},
+            "insomnia|can't sleep": {response: "If you're struggling with insomnia, try relaxation techniques, limit caffeine, and ensure your bedroom is conducive to sleep. If it persists, consider seeing a doctor. You can also ask about general sleep tips.", intent: 'insomnia_help'},
 
-                // General Health & App Features
-                "track progress|monitor goals|track|progress|goals": {response: "Our app allows you to track your workouts, log your meals, and monitor your sleep patterns to see your progress over time! You can ask me about other app features.", intent: 'app_features'},
-                "app features|what can this app do|features": {response: "This app helps you with personalized workout plans, meal tracking, sleep monitoring, and goal setting to support your fitness journey. You can ask about specific features like tracking.", intent: 'app_features'},
-                "motivation|stay motivated": {response: "Staying motivated can be tough! Set small, achievable goals, find an accountability partner, and celebrate your progress. You can also ask about tracking your progress.", intent: 'motivation'},
+            // General Health & App Features
+            "track progress|monitor goals|track|progress|goals": {response: "Our app allows you to track your workouts, log your meals, and monitor your sleep patterns to see your progress over time! You can ask me about other app features.", intent: 'app_features'},
+            "app features|what can this app do|features": {response: "This app helps you with personalized workout plans, meal tracking, sleep monitoring, and goal setting to support your fitness journey. You can ask about specific features like tracking.", intent: 'app_features'},
+            "motivation|stay motivated": {response: "Staying motivated can be tough! Set small, achievable goals, find an accountability partner, and celebrate your progress. You can also ask about tracking your progress.", intent: 'motivation'},
 
-                // Polite Closings and Exit Phrases
-                "thank you|thanks": {response: "You're most welcome! Keep up the great work on your fitness journey! Feel free to ask anything else.", intent: 'thank_you'},
-                "bye|goodbye|exit|quit|see you": {response: "Goodbye! Stay fit, stay healthy, and remember consistency is key! You can always come back if you have more fitness questions.", intent: 'exit'},
+            // Polite Closings and Exit Phrases
+            "thank you|thanks": {response: "You're most welcome! Keep up the great work on your fitness journey! Feel free to ask anything else.", intent: 'thank_you'},
+            "bye|goodbye|exit|quit|see you": {response: "Goodbye! Stay fit, stay healthy, and remember consistency is key! You can always come back if you have more fitness questions.", intent: 'exit'},
 
-                // Default Response (when no specific rule matches)
-                "default": {response: "I'm not sure I understand that fitness-related question. You can ask me about workouts, meals, or sleep.", intent: 'unknown'}
-            };
+            // Default Response (when no specific rule matches)
+            "default": {response: "I'm not sure I understand that fitness-related question. You can ask me about workouts, meals, or sleep.", intent: 'unknown'}
+        };
 
-            let lastMatchedIntentJS = null; // JavaScript equivalent of last_matched_intent
+        let lastMatchedIntentJS = null;
 
-            function cleanInputJS(userInput) {
-                userInput = userInput.toLowerCase();
-                // Remove all characters that are not letters, numbers, or spaces
-                userInput = userInput.replace(/[^\w\s]/g, '');
-                return userInput;
-            }
+        function cleanInputJS(userInput) {
+            userInput = userInput.toLowerCase();
+            userInput = userInput.replace(/[^\w\s]/g, '');
+            return userInput;
+        }
 
-            function getChatbotResponseJS(userInput) {
-                const cleanedInput = cleanInputJS(userInput);
-                let responseData = chatbotRulesJS.default; // Default response if no match
+        function getChatbotResponseJS(userInput) {
+            const cleanedInput = cleanInputJS(userInput);
+            let responseData = chatbotRulesJS.default;
 
-                // --- Context-specific responses (JavaScript version) ---
-                if (lastMatchedIntentJS === 'workout_plan') {
-                    if (/(^|\W)beginner(\W|$)/.test(cleanedInput)) { // Using regex for word boundary
-                        lastMatchedIntentJS = 'beginner_workout';
-                        return "Great! For beginners, focus on bodyweight exercises like squats, push-ups, and planks. Start slow and build consistency. You can also ask about strength training or cardio workouts.";
-                    } else if (/(^|\W)strength(\W|$)/.test(cleanedInput)) {
-                        lastMatchedIntentJS = 'strength_workout';
-                        return "Excellent! For strength training, compound movements like squats, deadlifts, and bench presses are key. Remember proper form! You can also ask about workout frequency or warm-up routines.";
-                    } else if (/(^|\W)cardio(\W|$)/.test(cleanedInput)) {
-                        lastMatchedIntentJS = 'cardio_workout';
-                        return "Good choice! Cardio can include running, cycling, or swimming. Aim for a consistent duration. You can also ask about warm-up or cool-down exercises.";
-                    }
+            // Context-specific responses
+            if (lastMatchedIntentJS === 'workout_plan') {
+                if (/(^|\W)beginner(\W|$)/.test(cleanedInput)) {
+                    lastMatchedIntentJS = 'beginner_workout';
+                    return "Great! For beginners, focus on bodyweight exercises like squats, push-ups, and planks. Start slow and build consistency. You can also ask about strength training or cardio workouts.";
+                } else if (/(^|\W)strength(\W|$)/.test(cleanedInput)) {
+                    lastMatchedIntentJS = 'strength_workout';
+                    return "Excellent! For strength training, compound movements like squats, deadlifts, and bench presses are key. Remember proper form! You can also ask about workout frequency or warm-up routines.";
+                } else if (/(^|\W)cardio(\W|$)/.test(cleanedInput)) {
+                    lastMatchedIntentJS = 'cardio_workout';
+                    return "Good choice! Cardio can include running, cycling, or swimming. Aim for a consistent duration. You can also ask about warm-up or cool-down exercises.";
                 }
+            }
 
-                // --- General rule matching (JavaScript version) ---
-                for (const pattern in chatbotRulesJS) {
-                    if (pattern === "default") continue; // Skip default rule for iteration
+            // General rule matching
+            for (const pattern in chatbotRulesJS) {
+                if (pattern === "default") continue;
 
-                    const regex = new RegExp(`^.*\\b(${pattern})\\b.*$`); // Create regex from pattern string
-                    if (regex.test(cleanedInput)) {
-                        responseData = chatbotRulesJS[pattern];
-                        break; // Found a match, break the loop
-                    }
+                const regex = new RegExp(`^.*\\b(${pattern})\\b.*$`);
+                if (regex.test(cleanedInput)) {
+                    responseData = chatbotRulesJS[pattern];
+                    break;
                 }
-
-                lastMatchedIntentJS = responseData.intent;
-                return responseData.response;
             }
 
-            function displayMessage(sender, message) {
-                const p = document.createElement('p');
-                p.innerHTML = `<span class="${sender === 'You' ? 'text-blue-400' : 'text-green-400'}">${sender}:</span> ${message}`;
-                terminalBody.appendChild(p);
-                terminalBody.scrollTop = terminalBody.scrollHeight; // Auto-scroll to bottom
+            lastMatchedIntentJS = responseData.intent;
+            return responseData.response;
+        }
+
+  function appendMessage(sender, message) {
+    const p = document.createElement('p');
+    p.innerHTML = `<span class="${sender === 'You' ? 'text-blue-400' : 'text-green-400'}">${sender}:</span> ${message}`;
+    chatBox.appendChild(p);
+    
+    // Smooth scroll to bottom without showing scrollbar
+    chatBox.scrollTo({
+        top: chatBox.scrollHeight,
+        behavior: 'smooth'
+    });
+}
+
+        function handleUserInput(userInput) {
+            if (userInput.trim() === "") return;
+
+            appendMessage("You", userInput);
+            userInputField.value = "";
+
+            typingIndicator.classList.remove('hidden');
+
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+                const botResponse = getChatbotResponseJS(userInput);
+                appendMessage("Chatbot", botResponse);
+            }, 1500);
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', () => {
+            handleUserInput(userInputField.value);
+        });
+
+        userInputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserInput(e.target.value);
             }
+        });
 
-            function handleUserInput(input) {
-                if (!input.trim()) return; // Don't process empty input
-
-                displayMessage('You', input);
-                userInputField.value = ''; // Clear input field
-
-                const botResponse = getChatbotResponseJS(input);
-
-                setTimeout(() => {
-                    displayMessage('Chatbot', botResponse);
-                }, 500); // Simulate typing delay
-            }
-
-            // Event listener for Send button
-            sendButton.addEventListener('click', () => {
-                handleUserInput(userInputField.value);
+        queryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const query = button.textContent.replace(/"/g, '').trim();
+                if (query) {
+                    handleUserInput(query);
+                }
             });
+        });
 
-            // Event listener for Enter key in input field
-            userInputField.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    handleUserInput(e.target.value); // Use e.target.value to get current input
-                }
-            });
+        // Chart.js Roadmap Chart
+        const ctx = document.getElementById('roadmapChart').getContext('2d');
+        const roadmapChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['ML Intent Recognition', 'Entity Extraction', 'Advanced Context', 'API Integration', 'Web Interface', 'Database Integration'],
+                datasets: [{
+                    label: 'Estimated Complexity',
+                    data: [8, 6, 7, 5, 4, 6],
+                    backgroundColor: 'rgba(20, 184, 166, 0.6)',
+                    borderColor: 'rgba(15, 118, 110, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Complexity Score (1-10)'
 
             // Event listeners for sample query buttons
             queryButtons.forEach(button => {
@@ -384,52 +473,59 @@
                             }
                         }
                     },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.y !== null) {
-                                        label += context.parsed.y;
-                                    }
-                                    return label;
+                    x: {
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
                                 }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y;
+                                }
+                                return label;
                             }
                         }
                     }
                 }
-            });
-
-            // --- Smooth Scrolling for Navigation ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        const headerOffset = mainHeader.offsetHeight; // Get height of fixed header
-                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                        const offsetPosition = elementPosition - headerOffset;
-
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: "smooth"
-                        });
-                    }
-                });
-            });
+            }
         });
 
+        // Smooth Scrolling for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = mainHeader.offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset;
 
- tailwind.config = {
-    darkMode: 'class'
-  }
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    });
+
+    tailwind.config = {
+        darkMode: 'class'
+    }
   
     </script>
     
